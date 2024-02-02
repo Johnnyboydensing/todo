@@ -1,11 +1,12 @@
 /** @format */
 
 const jwt = require("jsonwebtoken");
-
+const dotenv = require("dotenv");
+dotenv.config();
 const AccessToken = (param) => {
   const token = jwt.sign(
     { username: param.username, user_id: param.user_id },
-    "Secret",
+    process.env.ACCESS_TOKEN,
     {
       expiresIn: "1h",
     }
@@ -17,7 +18,7 @@ const AccessToken = (param) => {
 const RefreshToken = (param) => {
   const refreshToken = jwt.sign(
     { username: param.username, user_id: param.user_id },
-    "RefreshToken",
+    process.env.REFRESH_TOKEN,
     { expiresIn: 2.628e9 }
   );
 
@@ -31,7 +32,7 @@ const isAuthenticated = async (req, res, next) => {
   const refreshToken = req.cookies.RefreshToken;
 
   if (!accessToken) {
-    jwt.verify(refreshToken, "RefreshToken", (err, decoded) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, decoded) => {
       if (err) {
         return res.send({
           msg: "You're not authenticated",
@@ -53,7 +54,7 @@ const isAuthenticated = async (req, res, next) => {
       }
     });
   } else {
-    jwt.verify(accessToken, "Secret", (err, decoded) => {
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN, (err, decoded) => {
       if (err) {
         return res.send({
           msg: "You're not authenticated",
