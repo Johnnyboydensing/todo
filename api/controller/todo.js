@@ -24,6 +24,7 @@ const getTodo = async (req, res) => {
   try {
     await db.query(sql, [req.params.user_id], (err, result) => {
       if (err) {
+        
         return res.status(400).send({ msg: "Problem getting your todos" });
       }
 

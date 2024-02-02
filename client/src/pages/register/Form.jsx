@@ -6,9 +6,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Submit = async (input) => {
   try {
-    const res = await axios.post(`http://localhost:3000/Auth/register`, input, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `https://todo-app-y3h8.onrender.com/Auth/register`,
+      input,
+      {
+        withCredentials: true,
+      }
+    );
     return res;
   } catch (error) {
     return error;

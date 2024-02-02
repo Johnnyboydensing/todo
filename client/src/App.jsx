@@ -17,9 +17,12 @@ import axios from "axios";
 
 const loggedInUser = async () => {
   try {
-    const res = await axios.get("http://localhost:3000/Auth/is-auth", {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      "https://todo-app-y3h8.onrender.com/Auth/is-auth",
+      {
+        withCredentials: true,
+      }
+    );
     console.log(res);
     return res;
   } catch (error) {

@@ -7,9 +7,14 @@ import axios from "axios";
 
 const LoginFunc = async (input) => {
   try {
-    const res = await axios.post(`http://localhost:3000/Auth/login`, input, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `https://todo-app-y3h8.onrender.com/Auth/login`,
+      input,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(res);
     return res;
   } catch (error) {
     const err = error.response;

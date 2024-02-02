@@ -50,7 +50,6 @@ const login = async (req, res) => {
   try {
     await db.query(usernameExist, [username], async (err, ress) => {
       if (ress.length === 0) {
-        console.log(ress.length);
         return res
           .status(400)
           .send({ msg: "No username exist!", isAuth: false });
