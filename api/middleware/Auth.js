@@ -47,6 +47,8 @@ const isAuthenticated = async (req, res, next) => {
         res.cookie("AccessToken", newAccessToken, {
           maxAge: 86400000,
           httpOnly: true,
+          secure: false,
+          sameSite: "None",
         });
         // 86400000
         req.user = deco;
