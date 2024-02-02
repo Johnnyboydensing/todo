@@ -3,7 +3,7 @@ import axios from "axios";
 export const GetTodo = async (params) => {
   try {
     const res = await axios.get(
-      `http://localhost:3000/Todos/get-todo/${params}`,
+      `https://todo-app-y3h8.onrender.com/Todos/get-todo/${params}`,
       {
         withCredentials: true,
       }
@@ -17,7 +17,7 @@ export const GetTodo = async (params) => {
 export const AddTodo = async (params) => {
   try {
     const res = await axios.post(
-      `http://localhost:3000/Todos/add-todo`,
+      `https://todo-app-y3h8.onrender.com/Todos/add-todo`,
       params,
       { withCredentials: true }
     );
@@ -30,7 +30,7 @@ export const AddTodo = async (params) => {
 export const EditTodo = async (params) => {
   try {
     const res = await axios.put(
-      `http://localhost:3000/Todos/edit-todo/${params.todo_id}`,
+      `https://todo-app-y3h8.onrender.com/Todos/edit-todo/${params.todo_id}`,
       { todo_task: params.todo_task },
       { withCredentials: true }
     );
@@ -44,7 +44,7 @@ export const EditTodo = async (params) => {
 export const DeleteTodo = async (params) => {
   try {
     const res = await axios.delete(
-      `http://localhost:3000/Todos/delete-todo/${params}`,
+      `https://todo-app-y3h8.onrender.com/Todos/delete-todo/${params}`,
       { withCredentials: true }
     );
 
@@ -57,7 +57,7 @@ export const DeleteTodo = async (params) => {
 export const DeleteMultipleTodo = async (params) => {
   try {
     const res = await axios.post(
-      `http://localhost:3000/Todos/delete-multiple-todo`,
+      `https://todo-app-y3h8.onrender.com/Todos/delete-multiple-todo`,
       {
         todo_id: params.map((item) => {
           return item;
@@ -76,9 +76,12 @@ export const DeleteMultipleTodo = async (params) => {
 
 export const Logout = async (params) => {
   try {
-    const res = await axios.get(`http://localhost:3000/Auth/logout`, {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `https://todo-app-y3h8.onrender.com/Auth/logout`,
+      {
+        withCredentials: true,
+      }
+    );
 
     console.log(res);
 

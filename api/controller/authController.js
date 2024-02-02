@@ -96,9 +96,13 @@ const logout = async (req, res) => {
   res
     .clearCookie("AccessToken", {
       httpOnly: true,
+      secure: true,
+      sameSite: "None",
     })
     .clearCookie("RefreshToken", {
       httpOnly: true,
+      secure: true,
+      sameSite: "None",
     })
     .send({ msg: "Logout successfully" });
 };
