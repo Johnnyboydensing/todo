@@ -1,16 +1,19 @@
 /** @format */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DeleteMultipleTodo } from "./Crud";
+import DeleteLoader from "./DeleteLoader";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 function DeleteMultiple({ multipleId, setModals, modals }) {
   const reff = useRef(null);
+  const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationKey: ["todo-list"],
     mutationFn: DeleteMultipleTodo,
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ["todo-list"] });
+      setLoading(false);
       setModals((prev) => {
         return { ...prev, deleteMultiple: null };
       });
@@ -62,11 +65,19 @@ function DeleteMultiple({ multipleId, setModals, modals }) {
               className='bg-stone-400 hover:bg-stone-500 text-sm text-white font-semibold h-8 w-20 rounded-md'>
               Cancel
             </button>
-            <button
-              onClick={() => mutate(multipleId)}
-              className='bg-red-600 hover:bg-red-700 text-sm text-white font-semibold h-8 w-20 rounded-md'>
-              Delete
-            </button>
+
+            {loading ? (
+              <DeleteLoader />
+            ) : (
+              <button
+                onClick={() => {
+                  mutate(multipleId);
+                  setLoading(true);
+                }}
+                className='bg-red-500 hover:bg-red-600 text-sm text-white font-semibold h-8 w-20 rounded-md'>
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>

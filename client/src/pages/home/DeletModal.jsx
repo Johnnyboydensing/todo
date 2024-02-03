@@ -1,9 +1,11 @@
 /** @format */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DeleteTodo } from "./Crud";
+import DeleteLoader from "./DeleteLoader";
 function DeletModal({ id, setModals, modals }) {
+  const [loading, setLoading] = useState(false);
   const reff = useRef();
   const queryClient = useQueryClient();
   const { mutate: Delete } = useMutation({
@@ -11,6 +13,7 @@ function DeletModal({ id, setModals, modals }) {
     mutationFn: DeleteTodo,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todo-list"] });
+      setLoading(false);
       setModals((prev) => {
         return { ...prev, deleteModal: null };
       });
@@ -62,11 +65,18 @@ function DeletModal({ id, setModals, modals }) {
               className='bg-stone-400 hover:bg-stone-500 text-sm text-white font-semibold h-8 w-20 rounded-md'>
               Cancel
             </button>
-            <button
-              onClick={() => Delete(id)}
-              className='bg-red-600 hover:bg-red-700 text-sm text-white font-semibold h-8 w-20 rounded-md'>
-              Delete
-            </button>
+            {loading ? (
+              <DeleteLoader />
+            ) : (
+              <button
+                onClick={() => {
+                  Delete(id);
+                  setLoading(true);
+                }}
+                className='bg-red-500 hover:bg-red-600 text-sm text-white font-semibold h-8 w-20 rounded-md'>
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>

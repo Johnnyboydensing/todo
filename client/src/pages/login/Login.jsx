@@ -11,10 +11,11 @@ function Login() {
     password: "",
   });
   const [error, SetError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   return (
-    <div className='min-h-screen flex justify-center items-center'>
-      <div className='relative min-w-[250px] w-full xsm:w-96 h-96 xsm:border border-slate-300 p-5 gap-10 rounded-md flex flex-col items-center justify-center'>
+    <div className='min-h-screen min-w-[250px] flex justify-center items-center'>
+      <div className='relative  w-full sm:w-96 sm:h-96 sm:border border-slate-300 p-5 gap-10 rounded-md flex flex-col items-center justify-center'>
         <h1 className=' font-bold text-2xl text-slate-700'>Login</h1>
 
         <LoginForm
@@ -22,12 +23,15 @@ function Login() {
           SetLoginCredentials={SetLoginCredentials}
           SetError={SetError}
           error={error}
+          loading={loading}
+          setLoading={setLoading}
         />
 
         {error && (
           <h1
-            className='text-sm text-red-400 font-semibold absolute bottom-7
-        '>
+            className={`${
+              loading ? "hidden" : "block"
+            } text-sm text-red-400 font-semibold absolute bottom-7`}>
             {error}
           </h1>
         )}

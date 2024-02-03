@@ -1,9 +1,10 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import LoaderBtn from "./LoaderBtn";
 
 const LoginFunc = async (input) => {
   try {
@@ -14,7 +15,7 @@ const LoginFunc = async (input) => {
         withCredentials: true,
       }
     );
-    console.log(res);
+
     return res;
   } catch (error) {
     const err = error.response;
@@ -22,9 +23,17 @@ const LoginFunc = async (input) => {
   }
 };
 
-function LoginForm({ loginCredentials, SetLoginCredentials, SetError, error }) {
+function LoginForm({
+  loginCredentials,
+  SetLoginCredentials,
+  SetError,
+  error,
+  loading,
+  setLoading,
+}) {
   const nav = useNavigate();
   const queryClient = useQueryClient();
+
   const handleOnchange = (e) => {
     const { name, value } = e.target;
     SetLoginCredentials({
@@ -40,23 +49,18 @@ function LoginForm({ loginCredentials, SetLoginCredentials, SetError, error }) {
       if (result.data.isAuth === true) {
         await queryClient.invalidateQueries({ queryKey: ["logged-user"] });
         nav("/");
+        setLoading(false);
       } else {
         SetError(result.data.msg);
+        setLoading(false);
       }
     },
   });
 
-  const handleSubmit = (input) => {
+  const handleSubmit = async (input) => {
     mutate(input);
+    setLoading(true);
   };
-
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        SetError(null);
-      }, 2000);
-    }
-  }, [error]);
 
   return (
     <form
@@ -77,13 +81,17 @@ function LoginForm({ loginCredentials, SetLoginCredentials, SetError, error }) {
         className='border border-slate-300 mb-2 rounded-md w-[80%] p-2'
       />
 
-      <button
-        type='submit'
-        disabled={!loginCredentials.username || !loginCredentials.password}
-        onClick={() => handleSubmit(loginCredentials)}
-        className='bg-sky-400 h-9 disabled:bg-sky-300 text-white font-semibold p-1 text-sm w-[40%] rounded-full'>
-        Login
-      </button>
+      {loading ? (
+        <LoaderBtn />
+      ) : (
+        <button
+          type='submit'
+          disabled={!loginCredentials.username || !loginCredentials.password}
+          onClick={() => handleSubmit(loginCredentials)}
+          className='bg-sky-400 h-9 disabled:bg-sky-300 text-white font-semibold p-1 text-sm w-1/2 rounded-full'>
+          Login
+        </button>
+      )}
     </form>
   );
 }

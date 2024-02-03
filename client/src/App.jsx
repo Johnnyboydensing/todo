@@ -23,7 +23,7 @@ const loggedInUser = async () => {
         withCredentials: true,
       }
     );
-    console.log(res);
+
     return res;
   } catch (error) {
     const err = error.response;
