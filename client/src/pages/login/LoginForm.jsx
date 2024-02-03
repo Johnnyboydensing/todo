@@ -48,8 +48,8 @@ function LoginForm({
     onSuccess: async (result) => {
       if (result.data.isAuth === true) {
         await queryClient.invalidateQueries({ queryKey: ["logged-user"] });
-        nav("/");
         setLoading(false);
+        nav("/");
       } else {
         SetError(result.data.msg);
         setLoading(false);
@@ -57,7 +57,7 @@ function LoginForm({
     },
   });
 
-  const handleSubmit = async (input) => {
+  const handleSubmit = (input) => {
     mutate(input);
     setLoading(true);
   };

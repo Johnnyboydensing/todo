@@ -18,7 +18,7 @@ function Home({ loggedUser }) {
 
   return (
     <div className='sm:bg-sky-400 min-h-screen min-w-[280px] flex justify-center items-center'>
-      <div className='bg-white w-full rounded-md min-h-96 sm:w-96 sm:h-96 p-4 sm:shadow-2xl flex flex-col gap-3'>
+      <div className='bg-white w-full rounded-md min-h-96 sm:w-96 p-4 sm:shadow-2xl flex flex-col gap-3'>
         <button
           onClick={mutate}
           className='absolute right-14 bottom-10 font-semibold text-sm bg-black text-white p-2 w-20 rounded-2xl'>
